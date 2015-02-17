@@ -1,0 +1,20 @@
+{
+    "RootDirectory":"c:/dcfix/tamp/sql",
+    "Command":"sqlcmd",
+    "CommandArgs":
+    [
+        "-S",
+        "fecsql03",
+        "-E",
+        "-i"
+    ],
+    "DirectoryStructure": [
+        "pre",
+        "table",
+        "view",
+        "function",
+        "proc",
+        "post"
+    ]
+}
+
