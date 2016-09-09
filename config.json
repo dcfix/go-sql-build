@@ -1,12 +1,12 @@
 {
-    "RootDirectory":"c:/dcfix/tamp/sql",
-    "Command":"sqlcmd",
+    "RootDirectory":"/home/dcfix/prog/trizona/Policy/sqlrunner",
+    "Command":"psql",
     "CommandArgs":
     [
-        "-S",
-        "fecsql03",
-        "-E",
-        "-i"
+        "policyrunner",
+        "-U",
+        "fecker",
+        "-f"
     ],
     "DirectoryStructure": [
         "pre",

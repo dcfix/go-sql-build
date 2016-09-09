@@ -19,7 +19,7 @@ type Config struct {
 func main() {
 	// see if they passed in a config.json file,
 	// if not, see if there is one in the local directory.
-
+	fmt.Println("Here we go!")
 	config := loadConfig()
 	processFiles(config)
 }
@@ -27,18 +27,17 @@ func main() {
 func processFiles(config Config) {
 
 	//todo: remove this test code
-	// fmt.Println(myConfig.DirectoryStructure) // pre, table, view, function, sproc, post
+	//fmt.Println(config.DirectoryStructure) // pre, table, view, function, sproc, post
 
 	// loop through the DirectoryStructure items and process the files
 	for _, dirName := range config.DirectoryStructure {
-		path := config.RootDirectory + "\\" + dirName
-		// fmt.Println(path)
+		path := config.RootDirectory + "/" + dirName
+		//fmt.Println(path)
 
 		err := filepath.Walk(path, visitFile)
 		if err != nil {
 			fmt.Println("error:", err)
 		}
-
 	}
 }
 
@@ -46,6 +45,7 @@ func visitFile(path string, info os.FileInfo, err error) error {
 	// loop through the files and pass them along to cmd.execute
 	// the filename has to be the last arguement in the command line.
 
+	fmt.Println(path)
 	if strings.HasSuffix(path, ".sql") {
 		fmt.Printf(" processing %v\n", path)
 		config := loadConfig()
@@ -53,7 +53,6 @@ func visitFile(path string, info os.FileInfo, err error) error {
 
 		runSql(config.Command, args)
 		//results := runSql(config.Command, args)
-
 		//fmt.Printf("your output is: %s\n", results)
 	}
 
