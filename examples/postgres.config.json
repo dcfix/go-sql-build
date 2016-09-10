@@ -1,0 +1,21 @@
+{
+    "comment": "the password is stored in the .pgpass file",
+    "RootDirectory":"/home/dcfix/prog/trizona/Policy/sqlrunner",
+    "Command":"psql",
+    "CommandArgs":
+    [
+        "policyrunner",
+        "-U",
+        "fecker",
+        "-f"
+    ],
+    "DirectoryStructure": [
+        "pre",
+        "table",
+        "view",
+        "function",
+        "proc",
+        "post"
+    ]
+}
+

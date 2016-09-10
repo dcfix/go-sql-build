@@ -1,0 +1,21 @@
+{
+    "comment": "we're using integrated security (-E)",
+    "RootDirectory":"c:/prog/sql",
+    "Command":"sqlcmd",
+    "CommandArgs":
+    [
+        "-S",
+        "mySqlServer01",
+        "-E", 
+        "-i"
+    ],
+    "DirectoryStructure": [
+        "pre",
+        "table",
+        "view",
+        "function",
+        "proc",
+        "post"
+    ]
+}
+

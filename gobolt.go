@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+        "flag"
 	"fmt"
 	"os"
 	"os/exec"
@@ -19,7 +20,10 @@ type Config struct {
 func main() {
 	// see if they passed in a config.json file,
 	// if not, see if there is one in the local directory.
-	config := loadConfig()
+        configPath := flag.String("configPath", "gobolt.config.json", "the config file to process")
+        flag.Parse()
+
+	config := loadConfig(*configPath)
 	processFiles(config)
 }
 
@@ -30,31 +34,24 @@ func processFiles(config Config) {
 		path := config.RootDirectory + "/" + dirName
 		//fmt.Println(path)
 
-		err := filepath.Walk(path, visitFile)
+		err := filepath.Walk(path, func(path string, info os.FileInfo, err error) error {
+                  fmt.Println(path)
+                  if strings.HasSuffix(path, ".sql") {
+                    fmt.Printf(" processing %v\n", path)
+                    args := append(config.CommandArgs, path)
+                    runSql(config.Command, args)
+                }
+                return nil
+            })
 		if err != nil {
 			fmt.Println("error:", err)
 		}
 	}
 }
 
-func visitFile(path string, info os.FileInfo, err error) error {
-	// loop through the files and pass them along to cmd.execute
-	// the filename has to be the last arguement in the command line.
 
-	fmt.Println(path)
-	if strings.HasSuffix(path, ".sql") {
-		fmt.Printf(" processing %v\n", path)
-		config := loadConfig()
-		args := append(config.CommandArgs, path)
-
-		runSql(config.Command, args)
-	}
-
-	return nil
-}
-
-func loadConfig() Config {
-	file, _ := os.Open("bolt.config.json")
+func loadConfig(configPath string) Config {
+	file, _ := os.Open(configPath)
 	decoder := json.NewDecoder(file)
 	config := Config{}
 	err := decoder.Decode(&config)
