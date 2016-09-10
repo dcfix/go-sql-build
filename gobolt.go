@@ -19,15 +19,11 @@ type Config struct {
 func main() {
 	// see if they passed in a config.json file,
 	// if not, see if there is one in the local directory.
-	fmt.Println("Here we go!")
 	config := loadConfig()
 	processFiles(config)
 }
 
 func processFiles(config Config) {
-
-	//todo: remove this test code
-	//fmt.Println(config.DirectoryStructure) // pre, table, view, function, sproc, post
 
 	// loop through the DirectoryStructure items and process the files
 	for _, dirName := range config.DirectoryStructure {
@@ -52,15 +48,13 @@ func visitFile(path string, info os.FileInfo, err error) error {
 		args := append(config.CommandArgs, path)
 
 		runSql(config.Command, args)
-		//results := runSql(config.Command, args)
-		//fmt.Printf("your output is: %s\n", results)
 	}
 
 	return nil
 }
 
 func loadConfig() Config {
-	file, _ := os.Open("config.json")
+	file, _ := os.Open("bolt.config.json")
 	decoder := json.NewDecoder(file)
 	config := Config{}
 	err := decoder.Decode(&config)
